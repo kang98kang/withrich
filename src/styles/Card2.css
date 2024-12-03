@@ -18,6 +18,12 @@
   color: #333;
 }
 
+.reason-why {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #7a7878;
+}
+
 .reason-list {
   list-style: none;
   padding: 0;
@@ -51,7 +57,7 @@
 }
 
 .reason-footer {
-  width: 40%;
+  width: 60%;
   padding: 7px 7px;
   border-radius: 8px;
   background-color: #e6e3e3d3;

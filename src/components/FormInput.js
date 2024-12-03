@@ -1,10 +1,40 @@
-import { useState } from "react";
+import { useState } from 'react';
+import Modal from './Modal';
 
 const FormInput = () => {
+  const [isModal, setIsModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    birthDate: '',
+    gender: '',
+    phone: '',
+  });
+  const [error, setError] = useState('');
 
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
+  };
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleModal = () => {
+    setIsModal(true);
+  };
+  const handleCloseModal = () => {
+    setIsModal(false);
+  };
+  const handleConsole = () => {
+    if (Object.values(formData).some((value) => value.trim() === '')) {
+      alert('모든 필드를 작성해주세요.');
+      return;
+    }
+    console.log('Form Data:', formData);
   };
 
   return (
@@ -20,7 +50,9 @@ const FormInput = () => {
             이름
           </label>
           <input
-            type="text"
+            value={formData.name}
+            onChange={handleInputChange}
+            type="email"
             id="name"
             placeholder="이름을 입력해주세요"
             className="form-input"
@@ -33,6 +65,8 @@ const FormInput = () => {
           </label>
           <div className="birth-gender">
             <input
+              value={formData.birthDate}
+              onChange={handleInputChange}
               type="text"
               id="birthDate"
               placeholder="주민번호 앞자리"
@@ -40,9 +74,10 @@ const FormInput = () => {
             />
             <span className="dash">-</span>
             <input
+              value={formData.gender}
+              onChange={handleInputChange}
               type="text"
               id="gender"
-              placeholder="0"
               maxLength={1}
               className="form-input gender-input"
             />
@@ -55,6 +90,8 @@ const FormInput = () => {
             휴대폰
           </label>
           <input
+            value={formData.phone}
+            onChange={handleInputChange}
             type="tel"
             id="phone"
             placeholder="'-'를 제외한 번호를 입력해주세요"
@@ -72,17 +109,20 @@ const FormInput = () => {
             className="checkbox-input"
           />
           <label htmlFor="agreement" className="checkbox-label">
-            모두 동의합니다
+            동의합니다
           </label>
         </div>
         <hr className="separator" />
         <div className="details">
-          <span>개인정보 수집·이용 동의</span>
-          <span className="arrow">›</span>
+          <span onClick={handleModal}>개인정보 수집·이용 동의</span>
+          <span onClick={handleModal} className="arrow">
+            ›
+          </span>
+          <Modal isOpen={isModal} onClose={handleCloseModal} />
         </div>
       </div>
-      <button className="submit-button" disabled={!isChecked}>
-        전화상담 신청 <span>(현대해상 정규직원이 상담)</span>
+      <button onClick={handleConsole} className="submit-button" disabled={!isChecked}>
+        전화상담 신청
       </button>
     </div>
   );
